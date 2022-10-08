@@ -1,0 +1,19 @@
+var x := 12
+var s := "sh"
+print[x]
+
+if x < 23
+
+    print[s]
+!
+
+if x > 23
+
+    var x := x - 23 
+!
+
+print[x * 2]
+if x == 12
+
+    print[x / 6] 
+!
