@@ -12,7 +12,6 @@ with open(sys.argv[1], "r") as f:
     for row in list_of_lines:
         if row != "":
             list_of_text.append(row)
-
     
     def Counter(txt, counter):
         """This Function is cheking count of 'if', 'while', 'for' and '1'. They must be equal:"""   
@@ -58,12 +57,11 @@ with open(sys.argv[1], "r") as f:
             variable_dict[arg[0]] = eval(" ".join(arg[2:]))
 
     def alreadyDeclared(row, idx):
-        "This function is cheking, that declared variables were not been declared. "
+        "This function is cheking, that declared variables were been declared. "
         
         row = list_of_text[idx].split()
         if row[1] in variable_dict:
-            raise SyntaxError(f"Bro! {(row[1])} already declared.")
-
+            row[1] = variable_dict[row[1]] 
 
     def CreatingVariable(arg):
         """This function assign value in variable."""
@@ -89,7 +87,7 @@ with open(sys.argv[1], "r") as f:
     def isDeclared(row, idx):
         row = list_of_text[idx].split()
         for i in range(5):
-            if row[0] in variable_dict or ["if",  "print", "var", "!"][i] in row[0]:
+            if row[0] in variable_dict or ["if", "while", "print", "var", "!"][i] in row[0]:
                 return True
         
         raise NameError(f"Name ({str(row[0])})' is unrecognizable.")    
@@ -100,14 +98,14 @@ with open(sys.argv[1], "r") as f:
         if "!" not in list_of_text[idx:]:
             raise SyntaxError("After if you mast end with !")                
 
-    def untill_if(ind):
+    def untill_if_while_for(ind):
         """This function do file line by line untill will reach a line that starts with 'if'"""
 
         j = ind
         splitted_row = []
 
         while j != len(list_of_text):
-            if "if" in list_of_text[j]:
+            if "if" in list_of_text[j] or  "while" in list_of_text[j]:
                 break
 
             splitted_row = list_of_text[j].split()
@@ -122,7 +120,7 @@ with open(sys.argv[1], "r") as f:
             printing(list_of_text, splitted_row, j)
 
             j += 1
-            
+
     def have_if():
         """This function do file line by line when reach a line that starts 'if'
          and will do untill will reach line that ends with '!''"""
@@ -150,17 +148,61 @@ with open(sys.argv[1], "r") as f:
                         ind += 1
 
                     if ind != len(list_of_text):
-                        untill_if(ind)   
+                        untill_if_while_for(ind)   
 
                 else:
                     while "!" not in list_of_text[ind]:
                         ind += 1
-                    untill_if(ind)
+                    untill_if_while_for(ind)
+            ind += 1
+    
+     
+    def afterwhile(idx):
+        """This function is checking, or does While ends with '!'"""
+
+        if "!" not in list_of_text[idx:]:
+            raise SyntaxError("After While you mast end with !") 
+        
+
+    def have_while():
+        """This function do file line by line when reach a line that starts 'if'
+         and will do untill will reach line that ends with '!''"""
+
+        ind = 0
+
+        while ind != len(list_of_text):
+            if "while" in list_of_text[ind]:
+                splitted_row = list_of_text[ind].split()
+                afterwhile(ind)
+                variableValue(splitted_row)         
+                            
+                if eval(' '.join(splitted_row[1:])):
+                    while list_of_text[ind] != "!":
+                        if "var" in list_of_text[ind]:
+                            splitted_row = list_of_text[ind].split()
+                            variableName(splitted_row) 
+                            alreadyDeclared(splitted_row, ind)
+                            CreatingVariable(splitted_row)  
+
+                        VariableAfterDeclaring(splitted_row, ind)
+                        isDeclared(splitted_row, ind)     
+                        printing(list_of_text, splitted_row, ind)
+                    
+                        ind += 1
+
+                    if ind != len(list_of_text):
+                        untill_if_while_for(ind)   
+
+                else:
+                    while "!" not in list_of_text[ind]:
+                        ind += 1
+                    untill_if_while_for(ind)
             ind += 1
             
+        
 
     Counter(list_of_text, counter)
-    untill_if(free_var)                        
+    untill_if_while_for(free_var)                        
     have_if()
-    print(variable_dict)
-                                         
+    have_while()
+    print(variable_dict)             
