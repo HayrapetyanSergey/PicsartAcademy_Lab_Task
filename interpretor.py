@@ -16,7 +16,6 @@ with open(sys.argv[1], "r") as f:
     else:
         raise FileNotFoundError("File must have .hay extension")
 
-
     
     def Counter(txt, counter):
         """This Function is cheking count of 'if', 'while', 'for' and '!'. They must be equal:"""   
