@@ -281,7 +281,6 @@ with open(sys.argv[1], "r") as f:
             variable_dict[row[1]] = variable_dict[row[1]] + 1  
 
 
-    
     def for_in_dict():
         """This function do file line by line when reach a line that starts 'for'
          and will do untill will reach line that ends with '!' and adds the variable 
