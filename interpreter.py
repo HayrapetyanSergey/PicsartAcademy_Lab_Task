@@ -50,6 +50,7 @@ with open(sys.argv[1], "r") as f:
             except:
                 print(" ".join(row))
 
+
     def variable_after_declaring(idx):
         """A function that performs the following assignment operations"""
 
@@ -312,40 +313,33 @@ with open(sys.argv[1], "r") as f:
          and will do untill will reach line that ends with '!''"""
 
         ind = 0
-        for_in_dict()
-        while ind != len(list_of_text):
 
+        while ind != len(list_of_text):
             if "for" in list_of_text[ind]:
                 splitted_row = list_of_text[ind].split()
-                after_while(ind)
-                variable_value(splitted_row)
+                key = splitted_row[2]
+                while int(splitted_row[-3]) < int(splitted_row[-1]):
+                    for_in_dict()
+                    variable_dict[key] = int(splitted_row[-3])
+                    splitted_row[-3] = str(int(splitted_row[-3]) + 1)
 
-                if int(splitted_row[2]) < int(splitted_row[-1]):
+                    print(variable_dict[key])
+
+                    after_for(ind)
+                    variable_value(splitted_row)
                     while list_of_text[ind] != "!":
-                        printing(list_of_text, ind)
-
                         ind += 1
 
                     if ind != len(list_of_text):
                         untill_if_while_for(ind)
 
-                else:
-                    while "!" not in list_of_text[ind]:
-                        ind += 1
-                    untill_if_while_for(ind)
+                    else:
+                        while "!" not in list_of_text[ind]:
+                            ind += 1
+                        untill_if_while_for(ind)
 
             ind += 1
 
-
-    # def do_for():
-    # ind = 0
-    # for ind in range(len(list_of_text)):
-    # while ind != len(list_of_text):
-    # if "for" in list_of_text[ind]:
-    # splitted_row = list_of_text[ind].split()
-    # have_for()
-
-    # ind += 1
 
     is_syntax_right(list_of_text, count)
     is_syntax_right_from_to(list_of_text, count)
